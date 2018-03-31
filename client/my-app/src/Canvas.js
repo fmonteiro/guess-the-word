@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import "./Board.css";
+import "./Canvas.css";
 
-class Board extends Component {
-  constructor(props) {
-    super(props);
+import { emitChanges, subscribeToChangesOnCanvas } from "./api";
+
+class Canvas extends Component {
+  constructor() {
+    super();
 
     this.canvas = null;
     this.canvasContext = null;
@@ -21,6 +23,7 @@ class Board extends Component {
 
   componentDidMount = () => {
     this.setupCanvas();
+    subscribeToChangesOnCanvas(this.updateCanvas);
   };
 
   setupCanvas = () => {
@@ -42,17 +45,25 @@ class Board extends Component {
   draw = e => {
     if (!this.isDrawing) return;
 
+    this.updateCanvas(this.lastX, this.lastY, e.offsetX, e.offsetY, true);
+
+    this.lastX = e.offsetX;
+    this.lastY = e.offsetY;
+  };
+
+  updateCanvas = (lastX, lastY, currX, currY, shouldEmitChanges) => {
     const ctx = this.canvasContext;
 
     ctx.beginPath();
     // start from
-    ctx.moveTo(this.lastX, this.lastY);
+    ctx.moveTo(lastX, lastY);
     // go to
-    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.lineTo(currX, currY);
     ctx.stroke();
 
-    this.lastX = e.offsetX;
-    this.lastY = e.offsetY;
+    if (shouldEmitChanges) {
+      emitChanges(lastX, lastY, currX, currY);
+    }
   };
 
   render() {
@@ -68,4 +79,4 @@ class Board extends Component {
   }
 }
 
-export default Board;
+export default Canvas;
