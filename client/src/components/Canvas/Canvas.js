@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Canvas.css";
 
-import { emitChanges, subscribeToChangesOnCanvas } from "./api";
+import { emitChanges, subscribeToChangesOnCanvas } from "../Api/Api";
 
 class Canvas extends Component {
   constructor() {
@@ -9,8 +9,8 @@ class Canvas extends Component {
 
     this.canvas = null;
     this.canvasContext = null;
-    this.canvasWidth = 650;
-    this.canvasHeight = 350;
+    this.canvasWidth = 800;
+    this.canvasHeight = 600;
 
     this.isDrawing = false;
     this.lastX = 0;
@@ -69,10 +69,10 @@ class Canvas extends Component {
   render() {
     return (
       <canvas
-        ref={this.setCanvasElemRef}
-        width={this.canvasWidth}
-        height={this.canvasHeight}
-        className="drawing-board"
+          ref={this.setCanvasElemRef}
+          width={this.canvasWidth}
+          height={this.canvasHeight}
+          className="drawing-board"
         onClick={this.draw}
       />
     );
