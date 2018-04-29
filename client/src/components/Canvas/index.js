@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Canvas.css";
 
-import { emitChanges, subscribeToChangesOnCanvas } from "../Api/Api";
+import { emitChanges, subscribeToChangesOnCanvas } from "../Api";
 
 class Canvas extends Component {
   constructor() {
@@ -23,7 +23,7 @@ class Canvas extends Component {
 
   componentDidMount = () => {
     this.setupCanvas();
-    subscribeToChangesOnCanvas(this.updateCanvas);
+    subscribeToChangesOnCanvas(this.updateCanvas, this.props.ip);
   };
 
   setupCanvas = () => {
@@ -62,7 +62,7 @@ class Canvas extends Component {
     ctx.stroke();
 
     if (shouldEmitChanges) {
-      emitChanges(lastX, lastY, currX, currY);
+      emitChanges(lastX, lastY, currX, currY, this.props.ip);
     }
   };
 
