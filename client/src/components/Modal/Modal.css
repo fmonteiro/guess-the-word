@@ -1,0 +1,12 @@
+.Modal {
+  position: absolute;
+  top: 40%;
+  bottom: 40%;
+  padding: 2rem;
+  align-items: center;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  border-style: solid;
+  border-width: thick;
+  border-color: black;
+}
