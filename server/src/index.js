@@ -3,12 +3,19 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const port = 8000;
 
-io.on("connection", client => {
-  console.log("Client connected...");
+io.on("connection", socket => {
+  console.log("Client connected...", socket.id);
   
-  client.on("updateCanvas", (lastX, lastY, currX, currY) => {
+  socket.on("updateCanvas", (lastX, lastY, currX, currY) => {
     io.sockets.emit("updateCanvas", lastX, lastY, currX, currY);
+    //socket.broadcast.emit("updateCanvas", lastX, lastY, currX, currY);
   });
+
+  socket.on("updateChat", message => {
+    //io.sockets.emit("updateChat", message);
+    socket.broadcast.emit("updateChat", message);
+  });
+
 });
 
 io.listen(port);
